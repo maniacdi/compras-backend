@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  # ── Backend Node.js ─────────────────────────────────────────
+  compras-api:
+    build: .
+    container_name: compras-api
+    restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb+srv://magaldi:wSuSkCW9wVwSSl5Y@cluster0.kw2n0gr.mongodb.net/compras?retryWrites=true&w=majority
+      - PORT=3000
+      - CLIENT_URL=*
+    ports:
+      - "3000:3000"
+    networks:
+      - compras-net
+
+  # ── Tailscale (expone el NAS a internet de forma segura) ────
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: compras-tailscale
+    restart: unless-stopped
+    environment:
+      - TS_AUTHKEY=tskey-auth-kgRmyrkbNg11CNTRL-1mT5xFCRjsE9LXwv8Rr3tEJFLtcS37NoL
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_HOSTNAME=compras-nas
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+    volumes:
+      - tailscale-data:/var/lib/tailscale
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    network_mode: host
+
+networks:
+  compras-net:
+    driver: bridge
+
+volumes:
+  tailscale-data:

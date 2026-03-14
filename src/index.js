@@ -67,6 +67,9 @@ app.get('/api/categorias', (req, res) => {
     { id: 'limpieza', nombre: 'Limpieza', emoji: '🧹' },
     { id: 'congelados', nombre: 'Congelados', emoji: '🧊' },
     { id: 'trastero', nombre: 'Trastero / Almacén', emoji: '🏠' },
+    { id: 'bicarbonato', nombre: 'Bicarbonato', emoji: '😶‍🌫️' },
+    { id: 'cocina', nombre: 'Cocina', emoji: '♨️ ' },
+    { id: 'hogar', nombre: 'Hogar', emoji: '🏠' },
     { id: 'otros', nombre: 'Otros', emoji: '🛍️' },
   ];
   res.json({ ok: true, categorias });

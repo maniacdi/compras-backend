@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Categorías predefinidas con sus emojis
 const CATEGORIAS = [
   'frutas',
   'verduras',
@@ -20,6 +19,9 @@ const CATEGORIAS = [
   'limpieza',
   'congelados',
   'trastero',
+  'hogar',
+  'bicarbonato',
+  'cocina',
   'otros',
 ];
 
@@ -57,10 +59,8 @@ const elementoSchema = new mongoose.Schema({
     type: String,
     default: 'ud',
     trim: true,
-    // Ejemplos: "ud", "kg", "g", "L", "ml", "bolsa", "paquete"...
   },
   necesario: {
-    // true = hay que comprarlo, false = ya lo tenemos / no hace falta
     type: Boolean,
     default: true,
   },
@@ -70,12 +70,10 @@ const elementoSchema = new mongoose.Schema({
     default: '',
   },
   orden: {
-    // Para ordenar dentro de la categoría
     type: Number,
     default: 0,
   },
   creadoPor: {
-    // Nombre/alias de quien lo añadió
     type: String,
     default: '',
   },
@@ -94,7 +92,6 @@ elementoSchema.pre('save', function (next) {
   next();
 });
 
-// Índices para filtros rápidos
 elementoSchema.index({ lista: 1, categoria: 1 });
 elementoSchema.index({ lista: 1, necesario: 1 });
 elementoSchema.index({ pareja: 1 });
